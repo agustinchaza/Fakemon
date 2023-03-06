@@ -183,9 +183,9 @@ class _Menu_seleccionState extends State<Menu_seleccion> with AutomaticKeepAlive
 
                     RegistroJugador.selectedGenero=_selectedGenero;
                     RegistroJugador.profesion=_profesion;
-                    print('holi');
+                    //print('holi');
                     RegistroJugador.nombre=nombreAux;
-                    print('holi');
+                    //print('holi');
                     RegistroJugador.edad=edadAux;
 
 

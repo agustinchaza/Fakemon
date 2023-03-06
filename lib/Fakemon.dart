@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:fakemon2/tiposPokemon.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'AttackStrategy.dart';
 import 'Estados.dart';
@@ -12,7 +15,7 @@ class Attack {
 }
 
 // La clase Fakemon utiliza una lista de ataques
-class Fakemon {
+class Fakemon extends ChangeNotifier {
   final String name;
   final PokemonType type;
    int defensa;
@@ -22,6 +25,8 @@ class Fakemon {
   final List<Attack> attacks;
   late Set<Estado> estados;
    bool estaDormido=false;
+  bool estaParalizado=false;
+  bool estaConfundido=false;
 
   Fakemon(
       {required this.strong,
@@ -45,10 +50,21 @@ class Fakemon {
   }
 
   void takeDamage(int damage) {
+
+
+    //exponencial negativa,
+    // reduce en 0% para una defensa de 0,
+    // 63% para una defensa de 100
+    // y 99% para una defensa de 500
+
+    damage= damage*pow(e,(-defensa/100))as int;
     hp -= damage;
     if (hp < 0) {
       hp = 0;
     }
+
+  notifyListeners();
+
   }
 
   void takeCuracion(int curacion){
