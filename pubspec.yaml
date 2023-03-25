@@ -66,8 +66,8 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
 
-  scripts:
-    test: dart test/test.dart
+
+
 
 
   assets:
