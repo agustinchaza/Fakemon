@@ -9,6 +9,8 @@ void main() {
       expect(RegistroJugador.nombre, equals(nuevoNombre));
     });
 
+
+
     test('profesion debe ser actualizada', () {
       final nuevaProfesion = 'Desarrollador';
       RegistroJugador.profesion = nuevaProfesion;
