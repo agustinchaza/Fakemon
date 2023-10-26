@@ -29,3 +29,15 @@ subprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+plugins {
+  id "org.sonarqube" version "4.4.1.3373"
+}
+
+sonar {
+  properties {
+    property "sonar.projectKey", "agustinchaza_flutter_projecto"
+    property "sonar.organization", "agustinchaza"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
+}
