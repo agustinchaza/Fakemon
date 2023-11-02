@@ -9,17 +9,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get secret
-        uses: hashicorp/vault-action@v2
-        with:
-          address: http://localhost:8200
-          token: ${{ secrets.VAULT_TOKEN }}
-          path: secret/prueba
 
       - name: Print secret
         env:
           SECRET: ${{ steps.GetSecret.outputs.secret }}
-        run: echo $SECRET
+        run: echo $PRUEBA
   build:
   
     runs-on: ubuntu-latest
