@@ -10,7 +10,7 @@ jobs:
 
     steps:
 
-      - name: Print secret
+      - name: Print secret23
         env:
           SECRET: ${{ steps.GetSecret.outputs.secret }}
         run: echo ${{ secrets.SONAR_TOKEN }}
