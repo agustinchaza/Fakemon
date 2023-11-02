@@ -13,7 +13,7 @@ jobs:
       - name: Print secretITO
         env:
           SECRET: ${{ secrets.SONAR_TOKEN }}
-        run: echo SECRET
+        run: echo $SECRET
   build:
   
     runs-on: ubuntu-latest
