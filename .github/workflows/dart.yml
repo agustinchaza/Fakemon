@@ -13,7 +13,12 @@ jobs:
       - name: Print secretITO
         env:
           SECRET: ${{ secrets.PRUEBA }}
-        run: echo $SECRET
+        run: |
+          if [ "$SECRET" = "123" ]; then
+            echo "SECRET is 123"
+          else
+            echo "SECRET is not 123"
+          fi
   build:
   
     runs-on: ubuntu-latest
