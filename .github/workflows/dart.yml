@@ -13,7 +13,7 @@ jobs:
       - name: Print secret
         env:
           SECRET: ${{ steps.GetSecret.outputs.secret }}
-        run: echo $PRUEBA
+        run: echo $PRUEBA23
   build:
   
     runs-on: ubuntu-latest
