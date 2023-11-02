@@ -13,7 +13,7 @@ jobs:
       - name: Print secret
         env:
           SECRET: ${{ steps.GetSecret.outputs.secret }}
-        run: echo $SONAR_TOKEN
+        run: echo ${{ secrets.SONAR_TOKEN }}
   build:
   
     runs-on: ubuntu-latest
