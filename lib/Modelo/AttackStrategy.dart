@@ -8,7 +8,9 @@ import 'Fakemon.dart';
 abstract class AttackStrategy {
   void attack(Fakemon attacker, Fakemon opponent);
   abstract PokemonType tipo;
-}
+
+  }
+
 
 
 class ThunderboltStrategy implements AttackStrategy {

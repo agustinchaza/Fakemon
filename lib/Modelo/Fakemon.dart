@@ -18,30 +18,38 @@ class Attack {
 // La clase Fakemon utiliza una lista de ataques
 class Fakemon extends ChangeNotifier {
   final String name;
-  final PokemonType type;
+  //final PokemonType type;
    int defensa;
    int strong;
+   int hpMAX;
    int hp;
    int speed;
   final List<Attack> attacks;
-  late Set<Estado> estados;
+  late Set<Estado> estados; // uso un set para que no se repitan estados diferentes
    bool estaDormido=false;
   bool estaParalizado=false;
   bool estaConfundido=false;
+
 
   Fakemon (
       {required this.strong,
       required this.speed,
       required this.name,
-      required this.type,
+      //required this.type,
       required this.defensa,
       required this.hp,
-      required this.attacks
+      required this.attacks,
+      required this.hpMAX
       });
+
+  //segunda version del constructor
+
+
+
 
   String attack(Fakemon opponent, int attackIndex) {
     // Verificamos que el índice del ataque sea válido
-    if (attackIndex < 0 || attackIndex >= attacks.length) {
+      if (attackIndex < 0 || attackIndex >= attacks.length) {
       throw ArgumentError('Invalid attack index');
     }
 
@@ -58,23 +66,30 @@ class Fakemon extends ChangeNotifier {
   void takeDamage(int damage) {
 
 
-    //exponencial negativa,
+    //exponencial negativa, (simil ciclo de descarga de capacitores)
     // reduce en 0% para una defensa de 0,
     // 63% para una defensa de 100
     // y 99% para una defensa de 500
 
-    damage= damage*pow(e,(-defensa/100))as int;
+    damage= (damage*pow(e,(-defensa/100))).round();
+
     hp -= damage;
-    if (hp < 0) {
-      hp = 0;
+
+    if (hp<0){
+      hp=0;
     }
 
-  notifyListeners();
+
+
+  notifyListeners(); //no me acuerdo xq esta esto
 
   }
 
   void takeCuracion(int curacion){
     hp+= curacion;
+    if (hpMAX<hp) {
+      hp=hpMAX;
+    }
   }
 
   void cambiarAtaque (double proporcion){

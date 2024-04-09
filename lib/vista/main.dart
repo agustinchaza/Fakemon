@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 import 'Menu_Inicial.dart';
 import 'Navegador_de_Paginas.dart';
@@ -10,7 +11,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Mi Aplicación',
       home: MyHomePage(),
     );
@@ -69,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
       appBar: AppBar(
         backgroundColor: _appBarColor,
         toolbarHeight: 28.0,
-        title: Text(
+        title:  Text(
           'Fakemon',
           style: TextStyle(
             color: Colors.white,
