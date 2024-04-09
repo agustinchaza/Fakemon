@@ -40,6 +40,8 @@ dependencies:
 
   get: ^4.1.4
 
+  copyable:
+
 
 dev_dependencies:
   flutter_test:
