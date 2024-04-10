@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:fakemon2/Modelo/tiposPokemon.dart';
+//import 'package:fakemon2/Modelo/tiposPokemon.dart';
 
 import 'package:flutter/cupertino.dart';
 
@@ -25,7 +25,7 @@ class Fakemon extends ChangeNotifier {
    int hp;
    int speed;
   final List<Attack> attacks;
-  late Set<Estado> estados; // uso un set para que no se repitan estados diferentes
+   Set<Estado> estados={}; // uso un set para que no se repitan estados diferentes
    bool estaDormido=false;
   bool estaParalizado=false;
   bool estaConfundido=false;
@@ -39,7 +39,9 @@ class Fakemon extends ChangeNotifier {
       required this.defensa,
       required this.hp,
       required this.attacks,
-      required this.hpMAX
+      required this.hpMAX,
+
+
       });
 
   //segunda version del constructor
@@ -63,7 +65,7 @@ class Fakemon extends ChangeNotifier {
 
   }
 
-  void takeDamage(int damage) {
+  int takeDamage(int damage) {
 
 
     //exponencial negativa, (simil ciclo de descarga de capacitores)
@@ -82,7 +84,7 @@ class Fakemon extends ChangeNotifier {
 
 
   notifyListeners(); //no me acuerdo xq esta esto
-
+  return damage;
   }
 
   void takeCuracion(int curacion){
