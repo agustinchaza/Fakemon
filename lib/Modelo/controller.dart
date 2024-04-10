@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import 'AttackStrategy.dart';
 import 'Fakemon.dart';
-import 'tiposPokemon.dart';
+//import 'tiposPokemon.dart';
 
 import 'dart:math';
 
@@ -13,6 +13,7 @@ class ControllerBatalla extends GetxController {
 
   RxBool turnoJugador = false.obs;
   RxBool batallaTermino = false.obs;
+  bool botonDisponible=true;
 
   int indiceDelSwitch = 1;
   int turnoActual = 1;
@@ -43,7 +44,11 @@ class ControllerBatalla extends GetxController {
     defensa: 100,
     hp: 100,
     hpMAX: 100,
-    attacks: [],
+    attacks: [
+      Attack(name: 'ThunderBolt', strategy: ThunderboltStrategy()),
+      Attack(name: 'QuickAttackStrategy', strategy: QuickAttackStrategy()),
+      Attack(name: 'IronTailStrategy', strategy: IronTailStrategy()),
+      Attack(name: 'EmberStrategy', strategy: EmberStrategy()),],
   ).obs;
 
   setFakemons(Fakemon fakemonJugador, Fakemon fakemonCPU) {
@@ -56,18 +61,21 @@ class ControllerBatalla extends GetxController {
       narradorDeBatalla.value =
           fakemonJugador.value.attack(fakemonCPU.value, indexAttack);
     }
-
-    flujoDeBatalla();
+    update();
   }
 
   ataqueCPU() {
     if (!comprobarDebilitaciones(fakemonJugador.value)) {
       var rng = Random();
+
       int indexAttack = rng.nextInt(fakemonCPU.value.attacks.length);
       narradorDeBatalla.value =
           fakemonCPU.value.attack(fakemonJugador.value, indexAttack);
-      update();
+
     }
+    update();
+
+
   }
 
   bool comprobarDebilitaciones(Fakemon fakemon) {
@@ -93,6 +101,7 @@ class ControllerBatalla extends GetxController {
 
   bool comprobarVida() {
     if (fakemonJugador.value.hp <= 0) {
+
       narradorDeBatalla.value =
           'el Fakemon ${fakemonJugador.value.name} se debilito y a perdido la batalla. ${fakemonCPU.value.name} es el ganador!';
       update();
@@ -108,6 +117,10 @@ class ControllerBatalla extends GetxController {
 
   //todo: rearmar esto, armar una fila de acciones a realizar y a cada llamada se realiza unade las acciones
   flujoDeBatalla() {
+    botonDisponible=false;
+    bool autollamar=false;
+    bool activarBoton=false;
+    print(indiceDelSwitch);
     //switch case para las acciones a realizar
     //1. comprobar estados del pokemon mas rapido
     //2. comprobar estados del adversario
@@ -119,17 +132,23 @@ class ControllerBatalla extends GetxController {
       case 1:
         if (fakemonJugador.value.speed > fakemonCPU.value.speed) {
           comprobarEstados(fakemonJugador.value);
+          autollamar = fakemonJugador.value.estados.isEmpty;
           fakemonLento = fakemonCPU.value;
+
         } else {
           comprobarEstados(fakemonCPU.value);
+          autollamar = fakemonCPU.value.estados.isEmpty;
           fakemonLento = fakemonJugador.value;
         }
         indiceDelSwitch++;
+        activarBoton=true;
         break;
 
       case 2:
         comprobarEstados(fakemonLento);
+        autollamar = fakemonCPU.value.estados.isEmpty;
         indiceDelSwitch++;
+        activarBoton=true;
         break;
 
       case 3:
@@ -139,13 +158,23 @@ class ControllerBatalla extends GetxController {
         } else {
           turnoCPU();
           fakemonLento = fakemonJugador.value;
+          activarBoton=true;
         }
 
         indiceDelSwitch++;
         break;
 
       case 4:
-        fakemonLento == fakemonJugador.value ? turnoPlayer() : turnoCPU();
+
+        if (fakemonLento==fakemonJugador) {
+          turnoPlayer();
+
+        } else {
+          turnoCPU();
+
+          activarBoton=true;
+        }
+
         indiceDelSwitch = 1; //reiniciar el ciclo
         break;
       default:
@@ -153,26 +182,43 @@ class ControllerBatalla extends GetxController {
         break;
     }
 
-    //TODO: esperar a recibir un stream de la v  ista para poder continuar
+update();
 
     if (fakemonJugador.value.hp <= 0) {
       sleep(const Duration(seconds: 5));
       narradorDeBatalla.value =
           'el Fakemon ${fakemonJugador.value.name} se debilito y a perdido la batalla. ${fakemonCPU.value.name} es el ganador!';
+      batallaTermino.value = true;
     } else if (fakemonCPU.value.hp <= 0) {
       sleep(const Duration(seconds: 5));
       narradorDeBatalla.value =
           'el Fakemon ${fakemonCPU.value.name} se debilito y a perdido la batalla. ${fakemonJugador.value.name} es el ganador!';
+      batallaTermino.value = true;
     }
 
-    batallaTermino.value = true;
+
+    update();
+
+    if(autollamar){
+      flujoDeBatalla();
+    }
+    else {
+      botonDisponible = activarBoton;
+      if(batallaTermino.value){
+        botonDisponible=false;
+      }
+
+    }
   }
 
   void comprobarEstados(Fakemon f) {
+
+
     for (var estado in f.estados) {
-      estado.actuar();
+      setNarrador("el fakemon" + f.name+  estado.actuar());
       if (comprobarVida()) break;
     }
+
   }
 
   void elegirAtaque(int index) {
@@ -180,13 +226,14 @@ class ControllerBatalla extends GetxController {
         .attack(fakemonJugador.value, fakemonCPU.value);
     turnoJugador.value = false;
     update();
-    print("hola");
+    botonDisponible=true;
   }
 
   void turnoPlayer() {
     narradorDeBatalla.value =
         'Es el turno de ${fakemonJugador.value.name}. Elije un ataque';
     turnoJugador.value = true;
+    update();
   }
 
   void turnoCPU() {
@@ -200,10 +247,13 @@ class ControllerBatalla extends GetxController {
   void setNarrador(String texto){
     narradorDeBatalla.value = texto;
     update();
+    sleep(const Duration(seconds: 3));
 
 
   }
 
 
-  ControllerBatalla() {}
+  ControllerBatalla() {
+
+  }
 }

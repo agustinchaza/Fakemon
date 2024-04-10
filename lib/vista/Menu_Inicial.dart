@@ -51,7 +51,7 @@ class Menu_Inicial extends StatelessWidget {
                                 );
                               }
                             : null,
-                        icon: Icon(Icons.play_arrow_outlined,
+                        icon: Icon(Icons.settings_outlined,
                             color: Colors.yellow),
                         label: Text(''),
                         style: ElevatedButton.styleFrom(
@@ -81,7 +81,7 @@ class Menu_Inicial extends StatelessWidget {
                           );
                         },
                         icon:
-                            Icon(Icons.settings_outlined, color: Colors.yellow),
+                            Icon(Icons.play_arrow_outlined, color: Colors.yellow),
 
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blue,
@@ -106,6 +106,6 @@ class Menu_Inicial extends StatelessWidget {
       ),
     );
 
-    ;
+
   }
 }

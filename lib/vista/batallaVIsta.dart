@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fakemon2/Modelo/controller.dart';
 
-import '../Modelo/tiposPokemon.dart';
+//import '../Modelo/tiposPokemon.dart';
 import 'Fx_colores.dart';
 
 class batallaUI extends StatelessWidget {
@@ -14,21 +14,31 @@ class batallaUI extends StatelessWidget {
         child: GetBuilder<ControllerBatalla>(builder: (ControllerBatalla) {
       return Column(children: [
         Expanded(
-          flex: 1,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              controladorBatalla.narradorDeBatalla.value,
-              style: TextStyle(
-                  color: getComplementaryColor(getColor(controladorBatalla
-                      .fakemonJugador.value.attacks[0].strategy.tipo)),
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
+            flex: 1,
+
+              child: GestureDetector(
+                onTap: controladorBatalla.botonDisponible?() {
+                  // Llama a la función que deseas disparar aquí
+                  // Por ejemplo, si tienes una función llamada 'dispararFuncion', sería algo así:
+                  controladorBatalla.flujoDeBatalla();
+                }:null,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    controladorBatalla.narradorDeBatalla.value,
+                    style: TextStyle(
+                      color: getComplementaryColor(getColor(controladorBatalla
+                          .fakemonJugador.value.attacks[0].strategy.tipo)),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+
         ),
         Expanded(
           flex: 2,
@@ -46,7 +56,9 @@ class batallaUI extends StatelessWidget {
                     ),
                     Container(
                       color: Colors.green,
-                      width: 100,
+                      width: 100 *
+                          controladorBatalla.fakemonCPU.value.hp /
+                          controladorBatalla.fakemonCPU.value.hpMAX,
                       height: 10,
                     ),
                   ],
@@ -65,7 +77,7 @@ class batallaUI extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('lib/assets/pikachuEspalda.gif'),
-                          fit: BoxFit.fitWidth,
+                          fit: BoxFit.fitWidth
                         ),
                       ),
                     )),
@@ -160,8 +172,9 @@ class batallaUI extends StatelessWidget {
               ),
               Expanded(
                 child: (ElevatedButton(
-                  onPressed: () {
-                    controladorBatalla.elegirAtaque(1);
+                  onPressed:  !controladorBatalla.turnoJugador.value
+                      ? null
+                      : (){controladorBatalla.elegirAtaque(1);
                   },
                   style: ElevatedButton.styleFrom(
                     primary: getColor(controladorBatalla
@@ -199,8 +212,10 @@ class batallaUI extends StatelessWidget {
               ),
               Expanded(
                 child: (ElevatedButton(
-                  onPressed: () {
-                    controladorBatalla.elegirAtaque(2);
+                  onPressed:
+                    !controladorBatalla.turnoJugador.value
+                        ? null
+                        : () {controladorBatalla.elegirAtaque(2);
                   },
                   style: ElevatedButton.styleFrom(
                     primary: getColor(controladorBatalla
@@ -238,8 +253,10 @@ class batallaUI extends StatelessWidget {
               ),
               Expanded(
                 child: (ElevatedButton(
-                  onPressed: () {
-                    controladorBatalla.elegirAtaque(3);
+                  onPressed:
+                    !controladorBatalla.turnoJugador.value
+                        ? null
+                        :() {controladorBatalla.elegirAtaque(3);
                   },
                   style: ElevatedButton.styleFrom(
                     primary: getColor(controladorBatalla
@@ -277,7 +294,10 @@ class batallaUI extends StatelessWidget {
               )
             ]))
       ]);
-      ;
-    }));
+    }
+    )
+
+
+    );
   }
 }
