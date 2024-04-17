@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fakemon2/Modelo/RegistroJugador.dart';
 import 'package:get/get.dart';
 
 import 'AttackStrategy.dart';
@@ -8,7 +9,10 @@ import 'Fakemon.dart';
 
 import 'dart:math';
 
+import 'fakedex.dart';
+
 class ControllerBatalla extends GetxController {
+  Fakedex fakedex= Fakedex();
   RxString narradorDeBatalla = 'La batalla esta x comenzar'.obs;
 
   RxBool turnoJugador = false.obs;
@@ -20,36 +24,9 @@ class ControllerBatalla extends GetxController {
   late Fakemon fakemonLento; //as Fakemon;
 
   //inicializacion por defecto, los valores deben ser cargados al iniciar la batalla
-  Rx<Fakemon> fakemonJugador = Fakemon(
-    strong: 100,
-    speed: 100,
-    name: 'DEFECTO',
-    //type: PokemonType.fire,
-    defensa: 100,
-    hp: 100,
-    hpMAX: 100,
-    attacks: [
-      Attack(name: 'ThunderBolt', strategy: ThunderboltStrategy()),
-      Attack(name: 'QuickAttackStrategy', strategy: QuickAttackStrategy()),
-      Attack(name: 'IronTailStrategy', strategy: IronTailStrategy()),
-      Attack(name: 'EmberStrategy', strategy: EmberStrategy()),
-    ],
-  ).obs;
+  Rx<Fakemon> fakemonJugador = RegistroJugador.fJugador.obs;
 
-  Rx<Fakemon> fakemonCPU = Fakemon(
-    strong: 100,
-    speed: 100,
-    name: 'DEFECTO',
-    //type: PokemonType.fire,
-    defensa: 100,
-    hp: 100,
-    hpMAX: 100,
-    attacks: [
-      Attack(name: 'ThunderBolt', strategy: ThunderboltStrategy()),
-      Attack(name: 'QuickAttackStrategy', strategy: QuickAttackStrategy()),
-      Attack(name: 'IronTailStrategy', strategy: IronTailStrategy()),
-      Attack(name: 'EmberStrategy', strategy: EmberStrategy()),],
-  ).obs;
+  Rx<Fakemon> fakemonCPU = RegistroJugador.fCPU.obs;
 
   setFakemons(Fakemon fakemonJugador, Fakemon fakemonCPU) {
     this.fakemonJugador.value = fakemonJugador;

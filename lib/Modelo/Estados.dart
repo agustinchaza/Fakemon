@@ -87,6 +87,44 @@ class Quemar extends Estado{
 }
 
 
+class Veneno extends Estado {
+
+  int turnsLeft=4;
+
+  Veneno();
+
+  @override
+  String actuar() {
+    if (turnsLeft > 0) {
+      int damage=((fakemon.hpMAX-fakemon.hp)/3).round();
+      damage = fakemon.takeDamage(damage);
+      turnsLeft--;
+      if (turnsLeft == 0) {
+        fakemon.estaEnvenenado=false;
+        limpiar();
+
+        return "ya no está envenenado";
+      }
+      return "recibió $damage de daño por veneno y queda $turnsLeft turnos";
+    } else {
+      return "ya no está envenenado";
+    }
+  }
+
+  @override
+  void limpiar() {
+    super.limpiar();
+    // Puedes añadir aquí cualquier limpieza adicional necesaria para el estado de veneno
+  }
+
+  @override
+  void setPortador(Fakemon fakemon) {
+    super.setPortador(fakemon);
+    // Puedes añadir aquí cualquier configuración adicional necesaria para el estado de veneno
+  }
+}
+
+
 
 
 

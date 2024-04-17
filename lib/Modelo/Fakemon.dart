@@ -29,6 +29,7 @@ class Fakemon extends ChangeNotifier {
    bool estaDormido=false;
   bool estaParalizado=false;
   bool estaConfundido=false;
+  bool estaEnvenenado=false;
 
 
   Fakemon (
@@ -119,5 +120,19 @@ class Fakemon extends ChangeNotifier {
   bool isFainted() {
     return hp == 0;
   }
+
+  Fakemon clonar() {
+    return Fakemon(
+      name: this.name,
+      strong: this.strong,
+      speed: this.speed,
+      defensa: this.defensa,
+      hp: this.hp,
+      hpMAX: this.hpMAX,
+      attacks: List<Attack>.from(this.attacks),
+
+    );
+  }
+
 }
 

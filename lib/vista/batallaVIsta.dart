@@ -76,7 +76,7 @@ class batallaUI extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage('lib/assets/pikachuEspalda.gif'),
+                          image: AssetImage('lib/assets/${controladorBatalla.fakemonJugador.value.name}Espalda.gif'),
                           fit: BoxFit.fitWidth
                         ),
                       ),
@@ -116,7 +116,7 @@ class batallaUI extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage('lib/assets/pikachu.gif'),
+                            image: AssetImage('lib/assets/${controladorBatalla.fakemonCPU.value.name}.gif'),
                             fit: BoxFit.scaleDown,
                           ),
                         ),

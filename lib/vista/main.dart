@@ -3,8 +3,10 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 import 'Menu_Inicial.dart';
 import 'Navegador_de_Paginas.dart';
+import 'package:fakemon2/Modelo/fakedex.dart';
 
 void main() {
+  generarFakemons();
   runApp(MyApp());
 }
 
