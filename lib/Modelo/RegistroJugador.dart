@@ -5,13 +5,20 @@ import 'Fakemon.dart';
 class RegistroJugador{
   static String _nombre='ppp';
   static List<bool> _selectedGenero = <bool>[true, false];
-  static String _profesion='Estudiante';
+  static String _elegido='Pikachu';
+
+  static String get elegido => _elegido;
+
+  static set elegido(String value) {
+    _elegido = value;
+  }
+
   static int edad=0;
 
   static String get nombre => _nombre;
 
-  static Fakemon _fJugador = Null as Fakemon;
-  static Fakemon _fCPU = Null as Fakemon;
+  static Fakemon _fJugador =Fakemon(strong: 100, speed: 100, name: "default", defensa: 100, hp: 100, attacks: [] , hpMAX: 100);
+  static Fakemon _fCPU =Fakemon(strong: 100, speed: 100, name: "default", defensa: 100, hp: 100, attacks: [] , hpMAX: 100);
 
   static Fakemon get fCPU => _fCPU;
 
@@ -33,11 +40,6 @@ class RegistroJugador{
 
   static List<bool> get selectedGenero => _selectedGenero;
 
-  static String get profesion => _profesion;
-
-  static set profesion(String value) {
-    _profesion = value;
-  }
 
   static set selectedGenero(List<bool> value) {
     _selectedGenero = value;
