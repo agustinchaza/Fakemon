@@ -1,18 +1,20 @@
+import 'dart:math';
+
 import 'package:fakemon2/Modelo/RegistroJugador.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../Modelo/fakedex.dart';
+import '../Modelo/Fakemon.dart';
 import 'Menu_Inicial.dart';
+
 //import 'package:grouped_buttons/grouped_buttons.dart';
 const List<Widget> genero = <Widget>[
   Text('Chico'),
   Text('Chica'),
-
 ];
 
-
 class Menu_seleccion extends StatefulWidget {
-
   static final Menu_seleccion _instance = Menu_seleccion._internal();
 
   factory Menu_seleccion() {
@@ -25,30 +27,22 @@ class Menu_seleccion extends StatefulWidget {
   _Menu_seleccionState createState() => _Menu_seleccionState();
 }
 
-class _Menu_seleccionState extends State<Menu_seleccion> with AutomaticKeepAliveClientMixin {
-
-
-
-
+class _Menu_seleccionState extends State<Menu_seleccion>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
-  String _gender='';
-  String _profesion=RegistroJugador.profesion;
-
-  final _textController=TextEditingController();
-  late String nombreAux=RegistroJugador.nombre;
-  late int edadAux=RegistroJugador.edad;
+  String _gender = '';
+  Fakemon _fJugador = RegistroJugador.fJugador;
+  Fakemon _fCPU = RegistroJugador.fCPU;
+  final _textController = TextEditingController();
+  late String nombreAux = RegistroJugador.nombre;
+  late int edadAux = RegistroJugador.edad;
   List<bool> _selectedGenero = RegistroJugador.selectedGenero;
-
-
+  Fakedex fakedex = Fakedex();
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
     return Center(
       child: Container(
         width: double.infinity,
@@ -85,8 +79,8 @@ class _Menu_seleccionState extends State<Menu_seleccion> with AutomaticKeepAlive
                   width: 150,
                   child: TextFormField(
                     //value=RegistroJugador.nombre,
-                    onChanged: (value){
-                      nombreAux=value;
+                    onChanged: (value) {
+                      nombreAux = value;
                     },
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(10.0),
@@ -97,24 +91,22 @@ class _Menu_seleccionState extends State<Menu_seleccion> with AutomaticKeepAlive
                 ),
                 Text('Número'),
                 Container(
-
-                  child:Expanded(
-                  child: TextFormField(
-                    onChanged: (value){
-
-                      edadAux=value as int;
-                    },
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(10.0),
-                      labelText: edadAux.toString(),
+                  child: Expanded(
+                    child: TextFormField(
+                      onChanged: (value) {
+                        edadAux = value as int;
+                      },
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(10.0),
+                        labelText: edadAux.toString(),
+                      ),
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                     ),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
                   ),
-                ),
                 ),
               ],
             ),
@@ -126,21 +118,21 @@ class _Menu_seleccionState extends State<Menu_seleccion> with AutomaticKeepAlive
                 Expanded(
                     child: ToggleButtons(
                         isSelected: _selectedGenero,
-                        selectedColor: _selectedGenero[0] ? Colors.blue[300] : Colors.pink,
+                        selectedColor:
+                            _selectedGenero[0] ? Colors.blue[300] : Colors.pink,
                         children: genero,
                         //selectedBorderColor: Colors.amber,
                         //color: Colors.amber,
-                        fillColor: _selectedGenero[0] ? Colors.pink.withOpacity(0.30) :Colors.blue.withOpacity(0.3),
+                        fillColor: _selectedGenero[0]
+                            ? Colors.pink.withOpacity(0.30)
+                            : Colors.blue.withOpacity(0.3),
                         onPressed: (int index) {
-
                           // The button that is tapped is set to true, and the others to false.
                           for (int i = 0; i < _selectedGenero.length; i++) {
-
                             _selectedGenero[i] = i == index;
-                          setState((){});
-                          }}
-                    )
-                ),
+                            setState(() {});
+                          }
+                        })),
               ],
             ),
             SizedBox(height: 20),
@@ -151,13 +143,10 @@ class _Menu_seleccionState extends State<Menu_seleccion> with AutomaticKeepAlive
                 Expanded(
                   child: DropdownButton<String>(
                     isExpanded: true,
-                    value:_profesion ,
-                    items: <String>[
-                      'Estudiante',
-                      'Profesor',
-                      'Programador',
-                      'Otro'
-                    ].map<DropdownMenuItem<String>>((String value) {
+                    value: _fJugador.name,
+                    items: fakedex
+                        .getKeys()
+                        ?.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -165,7 +154,10 @@ class _Menu_seleccionState extends State<Menu_seleccion> with AutomaticKeepAlive
                     }).toList(),
                     onChanged: (value) {
                       setState(() {
-                        _profesion = value!;
+                        var random = Random();
+                        _fJugador = fakedex.getFakemon(value!);
+                        _fCPU = fakedex.getFakemon(fakedex.getKeys()![
+                            random.nextInt(fakedex.getKeys()!.length)]);
                       });
                     },
                   ),
@@ -180,22 +172,19 @@ class _Menu_seleccionState extends State<Menu_seleccion> with AutomaticKeepAlive
                   onPressed: () {
                     // TODO: Implementar lógica del botón
 
-
-                    RegistroJugador.selectedGenero=_selectedGenero;
-                    RegistroJugador.profesion=_profesion;
+                    RegistroJugador.selectedGenero = _selectedGenero;
+                    RegistroJugador.fJugador = _fJugador;
+                    RegistroJugador.fCPU = _fCPU;
                     //print('holi');
-                    RegistroJugador.nombre=nombreAux;
+                    RegistroJugador.nombre = nombreAux;
                     //print('holi');
-                    RegistroJugador.edad=edadAux;
-
-
-
+                    RegistroJugador.edad = edadAux;
 
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
+                      context,
+                      MaterialPageRoute(
                         builder: (context) => Menu_Inicial(),
-                    ),
+                      ),
                     );
                   },
                   child: Text('Volver'),
@@ -207,6 +196,4 @@ class _Menu_seleccionState extends State<Menu_seleccion> with AutomaticKeepAlive
       ),
     );
   }
-
-
 }
