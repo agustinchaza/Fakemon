@@ -33,6 +33,7 @@ class _Menu_seleccionState extends State<Menu_seleccion>
   bool get wantKeepAlive => true;
 
   String _gender = '';
+  String _elegido=RegistroJugador.elegido;
   Fakemon _fJugador = RegistroJugador.fJugador;
   Fakemon _fCPU = RegistroJugador.fCPU;
   final _textController = TextEditingController();
@@ -143,7 +144,7 @@ class _Menu_seleccionState extends State<Menu_seleccion>
                 Expanded(
                   child: DropdownButton<String>(
                     isExpanded: true,
-                    value: _fJugador.name,
+                    value: _elegido,
                     items: fakedex
                         .getKeys()
                         ?.map<DropdownMenuItem<String>>((String value) {

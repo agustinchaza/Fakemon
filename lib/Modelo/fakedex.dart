@@ -25,7 +25,11 @@ class Fakedex {
     }
 
     List<String>? getKeys(){
-      return _fakemons.keys as List<String>;
+      print(_fakemons.length);
+      var llaves= List<String>.from(_fakemons.keys);
+      print(llaves);
+      return llaves;
+
     }
 
 
