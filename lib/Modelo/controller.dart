@@ -1,3 +1,5 @@
+// Importaciones necesarias
+
 import 'dart:io';
 
 import 'package:fakemon2/Modelo/RegistroJugador.dart';
@@ -11,28 +13,37 @@ import 'dart:math';
 
 import 'fakedex.dart';
 
+// Controlador para la batalla
 class ControllerBatalla extends GetxController {
-  Fakedex fakedex= Fakedex();
-  RxString narradorDeBatalla = 'La batalla esta x comenzar'.obs;
 
+  // Instancia de Fakedex
+  Fakedex fakedex= Fakedex();
+
+  // Observables para narración de batalla, turno y estado de la batalla
+  RxString narradorDeBatalla = 'La batalla esta x comenzar'.obs;
   RxBool turnoJugador = false.obs;
   RxBool batallaTermino = false.obs;
   bool botonDisponible=true;
 
+
+// Índices y Fakemons para control de la batalla
   int indiceDelSwitch = 1;
   int turnoActual = 1;
   late Fakemon fakemonLento; //as Fakemon;
 
-  //inicializacion por defecto, los valores deben ser cargados al iniciar la batalla
+  // Fakemons del jugador y CPU
   Rx<Fakemon> fakemonJugador = RegistroJugador.fJugador.obs;
-
   Rx<Fakemon> fakemonCPU = RegistroJugador.fCPU.obs;
 
+
+  // Función para establecer los Fakemons
   setFakemons(Fakemon fakemonJugador, Fakemon fakemonCPU) {
     this.fakemonJugador.value = fakemonJugador;
     this.fakemonCPU.value = fakemonCPU;
   }
 
+
+  // Función para obtener acciones de ataque
   getAcciones(int indexAttack) {
     if (!comprobarDebilitaciones(fakemonJugador.value)) {
       narradorDeBatalla.value =
@@ -41,6 +52,7 @@ class ControllerBatalla extends GetxController {
     update();
   }
 
+  // Función para ataque de la CPU
   ataqueCPU() {
     if (!comprobarDebilitaciones(fakemonJugador.value)) {
       var rng = Random();
@@ -55,6 +67,8 @@ class ControllerBatalla extends GetxController {
 
   }
 
+
+  // Función para comprobar debilitaciones de un Fakemon
   bool comprobarDebilitaciones(Fakemon fakemon) {
     if (fakemonJugador.value.estaConfundido) {
       narradorDeBatalla.value =
@@ -106,6 +120,7 @@ class ControllerBatalla extends GetxController {
 
     //a cada paso se debe comprobar si el pokemon esta debilitado y sumar 1 al indice del switch
     switch (indiceDelSwitch) {
+
       case 1:
         if (fakemonJugador.value.speed > fakemonCPU.value.speed) {
           comprobarEstados(fakemonJugador.value);
@@ -162,12 +177,12 @@ class ControllerBatalla extends GetxController {
 update();
 
     if (fakemonJugador.value.hp <= 0) {
-      sleep(const Duration(seconds: 5));
+      sleep(const Duration(seconds: 2));
       narradorDeBatalla.value =
           'el Fakemon ${fakemonJugador.value.name} se debilito y a perdido la batalla. ${fakemonCPU.value.name} es el ganador!';
       batallaTermino.value = true;
     } else if (fakemonCPU.value.hp <= 0) {
-      sleep(const Duration(seconds: 5));
+      sleep(const Duration(seconds: 2));
       narradorDeBatalla.value =
           'el Fakemon ${fakemonCPU.value.name} se debilito y a perdido la batalla. ${fakemonJugador.value.name} es el ganador!';
       batallaTermino.value = true;
@@ -184,7 +199,7 @@ update();
       if(batallaTermino.value){
         botonDisponible=false;
       }
-
+      update();
     }
   }
 

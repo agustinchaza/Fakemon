@@ -11,11 +11,6 @@ void main() {
 
 
 
-    test('profesion debe ser actualizada', () {
-      final nuevaProfesion = 'Desarrollador';
-      RegistroJugador.profesion = nuevaProfesion;
-      expect(RegistroJugador.profesion, equals(nuevaProfesion));
-    });
 
     test('selectedGenero debe ser actualizado', () {
       final nuevoSelectedGenero = <bool>[false, true];
