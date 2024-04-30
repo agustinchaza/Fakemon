@@ -18,7 +18,7 @@ class ThunderboltStrategy implements AttackStrategy {
   @override
   void attack(Fakemon attacker, Fakemon opponent) {
     //var damage = (attacker.strong * 2 + 10) * 0.9 * (attacker.type.damageMultiplier(opponent.type));
-    var damage = (attacker.strong * 2 + 10) * 0.9 ;
+    var damage = (attacker.strong  + 10) * 0.9 ;
     opponent.takeDamage(damage.round());
   }
 
@@ -29,7 +29,7 @@ class ThunderboltStrategy implements AttackStrategy {
 class QuickAttackStrategy implements AttackStrategy {
   @override
   void attack(Fakemon attacker, Fakemon opponent) {
-    var damage = (attacker.strong * 2 + 10) * 0.4;
+    var damage = (attacker.strong  + 10) * 0.4;
     opponent.takeDamage(damage.round());
   }
   @override
@@ -49,7 +49,7 @@ class IronTailStrategy implements AttackStrategy {
   @override
   void attack(Fakemon attacker, Fakemon opponent) {
     //var damage = (attacker.strong * 2 + 10) * 0.9 * (attacker.type.damageMultiplier(opponent.type));
-    var damage = (attacker.strong * 2 + 10) * 0.9;
+    var damage = (attacker.strong  + 10) * 0.9;
     opponent.takeDamage(damage.round());
     if (Random().nextDouble() < 0.3) {
       //opponent.lowerDefense();
@@ -62,7 +62,7 @@ class IronTailStrategy implements AttackStrategy {
 class ScratchStrategy implements AttackStrategy {
   @override
   void attack(Fakemon attacker, Fakemon opponent) {
-    var damage = (attacker.strong * 2 + 10) * 0.9;
+    var damage = (attacker.strong  + 10) * 0.9;
     opponent.takeDamage(damage.round());
   }
   @override
@@ -73,7 +73,7 @@ class EmberStrategy implements AttackStrategy {
   @override
   void attack(Fakemon attacker, Fakemon opponent) {
     //var damage = (attacker.strong * 2 + 10) * 0.9 * (attacker.type.damageMultiplier(opponent.type));
-    var damage = (attacker.strong * 2 + 10) * 0.9;
+    var damage = (attacker.strong  + 10) * 0.9;
     opponent.takeDamage(damage.round());
     if (Random().nextDouble() < 0.1) {
       //  opponent.burn();
@@ -95,7 +95,7 @@ class DragonRageStrategy implements AttackStrategy {
 class FireFangStrategy implements AttackStrategy {
   @override
   void attack(Fakemon attacker, Fakemon opponent) {
-    var damage = (attacker.strong * 2 + 10) * 0.9  ;
+    var damage = (attacker.strong  + 10) * 0.9  ;
     //var damage = (attacker.level * 2 + 10) * 0.9 * (attacker.type.damageMultiplier(opponent.type));
     opponent.takeDamage(damage.round());
     if (Random().nextDouble() < 0.2) {
@@ -113,7 +113,7 @@ class AquaJetStrategy implements AttackStrategy {
   @override
   void attack(Fakemon attacker, Fakemon opponent) {
     //var damage = (attacker.strong * 2 + 10) * 0.4 * (attacker.type.damageMultiplier(opponent.type));
-    var damage = (attacker.strong * 2 + 10) * 0.4 ;
+    var damage = (attacker.strong  + 10) * 0.4 ;
     opponent.takeDamage(damage.round());
   }
   @override
@@ -124,7 +124,7 @@ class BubbleBeamStrategy implements AttackStrategy {
   @override
 
   void attack(Fakemon attacker, Fakemon opponent) {
-    var damage = (attacker.strong * 2 + 10) * 0.9;
+    var damage = (attacker.strong + 10) * 0.9;
     opponent.takeDamage(damage.round());
     if (Random().nextDouble() < 0.1) {
       //opponent.lowerSpeed();
@@ -139,7 +139,7 @@ class BubbleBeamStrategy implements AttackStrategy {
 class ShadowBallStrategy implements AttackStrategy {
   @override
   void attack(Fakemon attacker, Fakemon opponent) {
-    var damage = (attacker.strong * 2 + 10) * 0.9;
+    var damage = (attacker.strong  + 10) * 0.9;
     opponent.takeDamage(damage.round());
     if (Random().nextDouble() < 0.2) {
       // Reducir la defensa especial del oponente.
@@ -154,7 +154,7 @@ class ShadowBallStrategy implements AttackStrategy {
 class SludgeBombStrategy implements AttackStrategy {
   @override
   void attack(Fakemon attacker, Fakemon opponent) {
-    var damage = (attacker.strong * 2 + 10) * 0.9;
+    var damage = (attacker.strong  + 10) * 0.9;
     opponent.takeDamage(damage.round());
     if (Random().nextDouble() < 0.3) {
       if(!opponent.estaEnvenenado){
@@ -173,7 +173,7 @@ class SludgeBombStrategy implements AttackStrategy {
 class DarkPulseStrategy implements AttackStrategy {
   @override
   void attack(Fakemon attacker, Fakemon opponent) {
-    var damage = (attacker.strong * 2 + 10) * 0.9;
+    var damage = (attacker.strong  + 10) * 0.9;
     opponent.takeDamage(damage.round());
     if (Random().nextDouble() < 0.2) {
       // Potencialmente hacer que el oponente se flinche.
@@ -206,7 +206,7 @@ class HypnosisStrategy implements AttackStrategy {
 class HydroPumpStrategy implements AttackStrategy {
   @override
   void attack(Fakemon attacker, Fakemon opponent) {
-    var damage = (attacker.strong * 2 + 10) * 1.2; // Alta potencia
+    var damage = (attacker.strong  + 10) * 1.2; // Alta potencia
     opponent.takeDamage(damage.round());
   }
   @override
@@ -218,7 +218,7 @@ class HydroPumpStrategy implements AttackStrategy {
 class PsychicStrategy implements AttackStrategy {
   @override
   void attack(Fakemon attacker, Fakemon opponent) {
-    var damage = (attacker.strong * 2 + 10) * 0.9;
+    var damage = (attacker.strong  + 10) * 0.9;
     opponent.takeDamage(damage.round());
     if (Random().nextDouble() < 0.3) {
       // Reducir la defensa especial del oponente.
@@ -232,7 +232,7 @@ class PsychicStrategy implements AttackStrategy {
 class IceBeamStrategy implements AttackStrategy {
   @override
   void attack(Fakemon attacker, Fakemon opponent) {
-    var damage = (attacker.strong * 2 + 10) * 0.9;
+    var damage = (attacker.strong + 10) * 0.9;
     opponent.takeDamage(damage.round());
     if (Random().nextDouble() < 0.1) {
       // Congelar al oponente.
