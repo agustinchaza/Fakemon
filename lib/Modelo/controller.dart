@@ -15,16 +15,14 @@ import 'fakedex.dart';
 
 // Controlador para la batalla
 class ControllerBatalla extends GetxController {
-
   // Instancia de Fakedex
-  Fakedex fakedex= Fakedex();
+  Fakedex fakedex = Fakedex();
 
   // Observables para narración de batalla, turno y estado de la batalla
   RxString narradorDeBatalla = 'La batalla esta x comenzar'.obs;
   RxBool turnoJugador = false.obs;
   RxBool batallaTermino = false.obs;
-  bool botonDisponible=true;
-
+  bool botonDisponible = true;
 
 // Índices y Fakemons para control de la batalla
   int indiceDelSwitch = 1;
@@ -35,13 +33,11 @@ class ControllerBatalla extends GetxController {
   Rx<Fakemon> fakemonJugador = RegistroJugador.fJugador.obs;
   Rx<Fakemon> fakemonCPU = RegistroJugador.fCPU.obs;
 
-
   // Función para establecer los Fakemons
   setFakemons(Fakemon fakemonJugador, Fakemon fakemonCPU) {
     this.fakemonJugador.value = fakemonJugador;
     this.fakemonCPU.value = fakemonCPU;
   }
-
 
   // Función para obtener acciones de ataque
   getAcciones(int indexAttack) {
@@ -60,13 +56,9 @@ class ControllerBatalla extends GetxController {
       int indexAttack = rng.nextInt(fakemonCPU.value.attacks.length);
       narradorDeBatalla.value =
           fakemonCPU.value.attack(fakemonJugador.value, indexAttack);
-
     }
     update();
-
-
   }
-
 
   // Función para comprobar debilitaciones de un Fakemon
   bool comprobarDebilitaciones(Fakemon fakemon) {
@@ -92,7 +84,6 @@ class ControllerBatalla extends GetxController {
 
   bool comprobarVida() {
     if (fakemonJugador.value.hp <= 0) {
-
       narradorDeBatalla.value =
           'el Fakemon ${fakemonJugador.value.name} se debilito y a perdido la batalla. ${fakemonCPU.value.name} es el ganador!';
       update();
@@ -106,12 +97,12 @@ class ControllerBatalla extends GetxController {
     return false;
   }
 
-  //todo: rearmar esto, armar una fila de acciones a realizar y a cada llamada se realiza unade las acciones
   flujoDeBatalla() {
-    botonDisponible=false;
-    bool autollamar=false;
-    bool activarBoton=false;
+    botonDisponible = false;
+    bool autollamar = false;
+    bool activarBoton = false;
     print(indiceDelSwitch);
+    update();
     //switch case para las acciones a realizar
     //1. comprobar estados del pokemon mas rapido
     //2. comprobar estados del adversario
@@ -119,62 +110,62 @@ class ControllerBatalla extends GetxController {
     //4. ejecutar ataque del adversario
 
     //a cada paso se debe comprobar si el pokemon esta debilitado y sumar 1 al indice del switch
-    switch (indiceDelSwitch) {
 
+    // PARA REFACTORIZAR: cambiar el switch por un patron state pude simplificar la logica
+    switch (indiceDelSwitch) {
       case 1:
         if (fakemonJugador.value.speed > fakemonCPU.value.speed) {
           comprobarEstados(fakemonJugador.value);
           autollamar = fakemonJugador.value.estados.isEmpty;
           fakemonLento = fakemonCPU.value;
-
         } else {
           comprobarEstados(fakemonCPU.value);
           autollamar = fakemonCPU.value.estados.isEmpty;
           fakemonLento = fakemonJugador.value;
         }
         indiceDelSwitch++;
-        activarBoton=true;
-        break;
+        activarBoton = true;
+        break; // caso 1
 
       case 2:
         comprobarEstados(fakemonLento);
         autollamar = fakemonCPU.value.estados.isEmpty;
         indiceDelSwitch++;
-        activarBoton=true;
-        break;
+        activarBoton = true;
+        break; //caso 2
 
       case 3:
         if (fakemonJugador.value.speed > fakemonCPU.value.speed) {
           turnoPlayer();
           fakemonLento = fakemonCPU.value;
+          print("holi");
         } else {
           turnoCPU();
           fakemonLento = fakemonJugador.value;
-          activarBoton=true;
+          activarBoton = true;
         }
 
         indiceDelSwitch++;
-        break;
+        break; // caso 3
 
       case 4:
-
-        if (fakemonLento==fakemonJugador) {
+        if (fakemonLento == fakemonJugador) {
           turnoPlayer();
-
         } else {
           turnoCPU();
 
-          activarBoton=true;
+          activarBoton = true;
         }
 
         indiceDelSwitch = 1; //reiniciar el ciclo
         break;
       default:
         narradorDeBatalla.value = 'El programa fallo, error 1';
-        break;
+        break; // caso 4
     }
+    // FIN DEL SWITCH---------------
 
-update();
+    update();
 
     if (fakemonJugador.value.hp <= 0) {
       sleep(const Duration(seconds: 2));
@@ -188,29 +179,24 @@ update();
       batallaTermino.value = true;
     }
 
-
     update();
 
-    if(autollamar){
+    if (autollamar) {
       flujoDeBatalla();
-    }
-    else {
+    } else {
       botonDisponible = activarBoton;
-      if(batallaTermino.value){
-        botonDisponible=false;
+      if (batallaTermino.value) {
+        botonDisponible = false;
       }
       update();
     }
   }
 
   void comprobarEstados(Fakemon f) {
-
-
     for (var estado in f.estados) {
-      setNarrador("el fakemon" + f.name+  estado.actuar());
+      setNarrador("el fakemon${f.name}${estado.actuar()}");
       if (comprobarVida()) break;
     }
-
   }
 
   void elegirAtaque(int index) {
@@ -218,7 +204,14 @@ update();
         .attack(fakemonJugador.value, fakemonCPU.value);
     turnoJugador.value = false;
     update();
-    botonDisponible=true;
+    botonDisponible = true;
+    if (!comprobarVida()) {
+      flujoDeBatalla();
+    }
+    else{
+      botonDisponible=false;
+    }
+    update();
   }
 
   void turnoPlayer() {
@@ -232,20 +225,15 @@ update();
     narradorDeBatalla.value = 'Es el turno de ${fakemonCPU.value.name}.';
     update();
 
-    sleep(const Duration(seconds: 3));
+    sleep(const Duration(seconds: 1));
     ataqueCPU();
   }
 
-  void setNarrador(String texto){
+  void setNarrador(String texto) {
     narradorDeBatalla.value = texto;
     update();
-    sleep(const Duration(seconds: 3));
-
-
+    sleep(const Duration(seconds: 1));
   }
 
-
-  ControllerBatalla() {
-
-  }
+  ControllerBatalla() {}
 }

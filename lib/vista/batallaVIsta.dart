@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:fakemon2/Modelo/controller.dart';
 
 //import '../Modelo/tiposPokemon.dart';
-import 'Fx_colores.dart';
+import 'VisualFkmonTipo.dart';
 
 class batallaUI extends StatelessWidget {
   final ControllerBatalla controladorBatalla = Get.put(ControllerBatalla());
@@ -57,8 +57,8 @@ class batallaUI extends StatelessWidget {
                     Container(
                       color: Colors.green,
                       width: 100 *
-                          controladorBatalla.fakemonCPU.value.hp /
-                          controladorBatalla.fakemonCPU.value.hpMAX,
+                          controladorBatalla.fakemonJugador.value.hp /
+                          controladorBatalla.fakemonJugador.value.hpMAX,
                       height: 10,
                     ),
                   ],

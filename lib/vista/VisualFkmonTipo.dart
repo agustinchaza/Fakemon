@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../Modelo/tiposPokemon.dart';
 
 Map<PokemonType, IconData> typeToIconData = {
-  PokemonType.normal: Icons.healing,
+  PokemonType.normal: Icons.circle_outlined,
   PokemonType.fire: Icons.local_fire_department,
   PokemonType.water: Icons.water_drop,
   PokemonType.electric: Icons.bolt,
@@ -13,14 +13,14 @@ Map<PokemonType, IconData> typeToIconData = {
   PokemonType.fighting: Icons.thumb_up,
   PokemonType.poison: Icons.local_bar,
   PokemonType.ground: Icons.landscape,
-  PokemonType.flying: Icons.airplanemode_active,
-  PokemonType.psychic: Icons.psychology,
-  PokemonType.bug: Icons.pentagon,
-  PokemonType.rock: Icons.landscape,
+  PokemonType.flying: Icons.air,
+  PokemonType.psychic: Icons.bubble_chart_outlined,
+  PokemonType.bug: Icons.bug_report_outlined,
+  PokemonType.rock: Icons.join_inner,
   PokemonType.ghost: Icons.dark_mode_outlined,
   PokemonType.dragon: Icons.visibility,
   PokemonType.dark: Icons.nights_stay,
-  PokemonType.steel: Icons.construction,
+  PokemonType.steel: Icons.shield_outlined,
   PokemonType.fairy: Icons.wb_sunny,
 };
 IconData? getIcon(PokemonType tipo) {
@@ -37,7 +37,7 @@ PokemonType.grass: const Color(0xFF78C850), // Green
 PokemonType.ice: const Color(0xFF98D8D8), // Light blue
 PokemonType.fighting: const Color(0xFFC03028), // Red
 PokemonType.poison: const Color(0xFFA040A0), // Purple
-PokemonType.ground: const Color(0xFFC7B299), // Light brown
+PokemonType.ground: const Color(0xFF58EC53), // Light brown
 PokemonType.flying: const Color(0xFFA890F0), // Lavender
 PokemonType.psychic: const Color(0xFFF85888), // Pink
 PokemonType.bug: const Color(0xFFA8B820), // Light green
