@@ -1,3 +1,4 @@
+
 name: Flutter CI
 
 on:
@@ -23,3 +24,41 @@ jobs:
 
     - name: Run tests
       run: flutter test
+=======
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: [ "master" ]
+    
+jobs:
+  get-secret:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Print secretITO
+        env:
+          SECRET: ${{ secrets.PRUEBA }}
+        run: |
+          if [ "$SECRET" = "123" ]; then
+            echo "SECRET is 123"
+          else
+            echo "SECRET is not 123"
+          fi
+  build:
+  
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.3.3'
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test
+
+
