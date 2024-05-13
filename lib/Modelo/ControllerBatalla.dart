@@ -116,11 +116,11 @@ class ControllerBatalla extends GetxController {
       case 1:
         if (fakemonJugador.value.speed > fakemonCPU.value.speed) {
           comprobarEstados(fakemonJugador.value);
-          autollamar = fakemonJugador.value.estados.isEmpty;
+          autollamar = true;
           fakemonLento = fakemonCPU.value;
         } else {
           comprobarEstados(fakemonCPU.value);
-          autollamar = fakemonCPU.value.estados.isEmpty;
+          autollamar = true;
           fakemonLento = fakemonJugador.value;
         }
         indiceDelSwitch++;
@@ -129,10 +129,11 @@ class ControllerBatalla extends GetxController {
 
       case 2:
         comprobarEstados(fakemonLento);
-        autollamar = fakemonCPU.value.estados.isEmpty;
+        autollamar = true;
         indiceDelSwitch++;
         activarBoton = true;
         break; //caso 2
+
 
       case 3:
         if (fakemonJugador.value.speed > fakemonCPU.value.speed) {
@@ -148,6 +149,7 @@ class ControllerBatalla extends GetxController {
         indiceDelSwitch++;
         break; // caso 3
 
+    
       case 4:
         if (fakemonLento == fakemonJugador) {
           turnoPlayer();

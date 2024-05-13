@@ -51,8 +51,6 @@ PokemonType.fairy: const Color(0xFFF0E68C), // Light yellow
 
 Color getColor(PokemonType tipo) {
 
-
-
   return typeToColor[tipo]?? Colors.transparent;;
 
 
