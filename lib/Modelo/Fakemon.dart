@@ -85,6 +85,8 @@ class Fakemon extends ChangeNotifier {
 
 
   notifyListeners(); //no me acuerdo xq esta esto
+                      //asuno que esto forma parte de un observer viejo que no termino
+                      //de ser implementado
   return damage;
   }
 

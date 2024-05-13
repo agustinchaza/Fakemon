@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fakemon2/Modelo/ControllerBatalla.dart';
-
-//import '../Modelo/tiposPokemon.dart';
 import 'VisualFkmonTipo.dart';
 
+import 'package:fakemon2/Modelo/Fakemon.dart';
+
+/// This class represents the UI for the battle screen.
 class batallaUI extends StatelessWidget {
+  /// The controller for the battle.
   final ControllerBatalla controladorBatalla = Get.put(ControllerBatalla());
 
   @override
+
+  /// This method builds the UI for the battle screen.
   Widget build(BuildContext context) {
-    return Container(
-        child: GetBuilder<ControllerBatalla>(builder: (ControllerBatalla) {
+    return GetBuilder<ControllerBatalla>(builder: (ControllerBatalla) {
       return Column(children: [
         Expanded(
             flex: 1,
-
-              child: GestureDetector(
-                onTap: controladorBatalla.botonDisponible?() {
-                  // Llama a la función que deseas disparar aquí
-                  // Por ejemplo, si tienes una función llamada 'dispararFuncion', sería algo así:
-                  controladorBatalla.flujoDeBatalla();
-                }:null,
+            child: GestureDetector(
+                onTap: controladorBatalla.botonDisponible
+                    ? controladorBatalla.flujoDeBatalla
+                    : null,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.3),
@@ -36,10 +36,7 @@ class batallaUI extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ),
-
-        ),
+                ))),
         Expanded(
           flex: 2,
           child: Row(children: [
@@ -47,80 +44,20 @@ class batallaUI extends StatelessWidget {
                 child: Column(
               children: [
                 Expanded(flex: 1, child: Container()),
-                Stack(
-                  children: [
-                    Container(
-                      color: Colors.red,
-                      width: 100,
-                      height: 10,
-                    ),
-                    Container(
-                      color: Colors.green,
-                      width: 100 *
-                          controladorBatalla.fakemonJugador.value.hp /
-                          controladorBatalla.fakemonJugador.value.hpMAX,
-                      height: 10,
-                    ),
-                  ],
-                ),
-                Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                        'Vida: ${controladorBatalla.fakemonJugador.value.hp}/${controladorBatalla.fakemonJugador.value.hpMAX}')),
+                healthBar(controladorBatalla.fakemonJugador.value),
+                healthPoints(controladorBatalla.fakemonJugador.value),
                 Expanded(flex: 5, child: Container()),
-                Expanded(
-                    flex: 10,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('lib/assets/${controladorBatalla.fakemonJugador.value.name}Espalda.gif'),
-                          fit: BoxFit.fitWidth
-                        ),
-                      ),
-                    )),
+                fakemonImage(controladorBatalla.fakemonJugador.value, true),
               ],
             )),
             Expanded(
               child: Column(
                 children: [
                   Expanded(flex: 1, child: Container()),
-                  Stack(
-                    children: [
-                      Container(
-                        color: Colors.red,
-                        width: 100,
-                        height: 10,
-                      ),
-                      Container(
-                        color: Colors.green,
-                        width: 100 *
-                            controladorBatalla.fakemonCPU.value.hp /
-                            controladorBatalla.fakemonCPU.value.hpMAX,
-                        height: 10,
-                      ),
-                    ],
-                  ),
-                  Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                          'Vida: ${controladorBatalla.fakemonCPU.value.hp}/${controladorBatalla.fakemonCPU.value.hpMAX}')),
+                  healthBar(controladorBatalla.fakemonCPU.value),
+                  healthPoints(controladorBatalla.fakemonCPU.value),
                   Expanded(flex: 7, child: Container()),
-                  Expanded(
-                      flex: 10,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('lib/assets/${controladorBatalla.fakemonCPU.value.name}.gif'),
-                            fit: BoxFit.scaleDown,
-                          ),
-                        ),
-                      ))
+                  fakemonImage(controladorBatalla.fakemonCPU.value, false),
                 ],
               ),
             )
@@ -129,175 +66,99 @@ class batallaUI extends StatelessWidget {
         Expanded(
             flex: 1,
             child: Column(children: [
-              Expanded(
-                child: (ElevatedButton(
-                  onPressed: !controladorBatalla.turnoJugador.value
-                      ? null
-                      : () {
-                          controladorBatalla.elegirAtaque(0);
-                        },
-                  style: ElevatedButton.styleFrom(
-                    primary: getColor(controladorBatalla
-                        .fakemonJugador.value.attacks[0].strategy.tipo),
-                    onPrimary: Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    minimumSize: Size(130, 50),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        controladorBatalla.fakemonJugador.value.attacks[0]
-                            .strategy.runtimeType
-                            .toString(),
-                        style: TextStyle(
-                            color: getComplementaryColor(getColor(
-                                controladorBatalla.fakemonJugador.value
-                                    .attacks[0].strategy.tipo)),
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        getIcon(controladorBatalla
-                            .fakemonJugador.value.attacks[0].strategy.tipo),
-                        color: getComplementaryColor(getColor(controladorBatalla
-                            .fakemonJugador.value.attacks[0].strategy.tipo)),
-                        size: 30,
-                      ),
-                    ],
-                  ),
-                )),
-              ),
-              Expanded(
-                child: (ElevatedButton(
-                  onPressed:  !controladorBatalla.turnoJugador.value
-                      ? null
-                      : (){controladorBatalla.elegirAtaque(1);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: getColor(controladorBatalla
-                        .fakemonJugador.value.attacks[1].strategy.tipo),
-                    onPrimary: Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    minimumSize: Size(130, 50),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        controladorBatalla.fakemonJugador.value.attacks[1]
-                            .strategy.runtimeType
-                            .toString(),
-                        style: TextStyle(
-                            color: getComplementaryColor(getColor(
-                                controladorBatalla.fakemonJugador.value
-                                    .attacks[1].strategy.tipo)),
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        getIcon(controladorBatalla
-                            .fakemonJugador.value.attacks[1].strategy.tipo),
-                        color: getComplementaryColor(getColor(controladorBatalla
-                            .fakemonJugador.value.attacks[1].strategy.tipo)),
-                        size: 30,
-                      ),
-                    ],
-                  ),
-                )),
-              ),
-              Expanded(
-                child: (ElevatedButton(
-                  onPressed:
-                    !controladorBatalla.turnoJugador.value
-                        ? null
-                        : () {controladorBatalla.elegirAtaque(2);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: getColor(controladorBatalla
-                        .fakemonJugador.value.attacks[2].strategy.tipo),
-                    onPrimary: Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    minimumSize: Size(130, 50),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        controladorBatalla.fakemonJugador.value.attacks[2]
-                            .strategy.runtimeType
-                            .toString(),
-                        style: TextStyle(
-                            color: getComplementaryColor(getColor(
-                                controladorBatalla.fakemonJugador.value
-                                    .attacks[2].strategy.tipo)),
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        getIcon(controladorBatalla
-                            .fakemonJugador.value.attacks[2].strategy.tipo),
-                        color: getComplementaryColor(getColor(controladorBatalla
-                            .fakemonJugador.value.attacks[2].strategy.tipo)),
-                        size: 30,
-                      ),
-                    ],
-                  ),
-                )),
-              ),
-              Expanded(
-                child: (ElevatedButton(
-                  onPressed:
-                    !controladorBatalla.turnoJugador.value
-                        ? null
-                        :() {controladorBatalla.elegirAtaque(3);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: getColor(controladorBatalla
-                        .fakemonJugador.value.attacks[3].strategy.tipo),
-                    onPrimary: Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    minimumSize: Size(130, 50),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        controladorBatalla.fakemonJugador.value.attacks[3]
-                            .strategy.runtimeType
-                            .toString(),
-                        style: TextStyle(
-                            color: getComplementaryColor(getColor(
-                                controladorBatalla.fakemonJugador.value
-                                    .attacks[3].strategy.tipo)),
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Icon(
-                        getIcon(controladorBatalla
-                            .fakemonJugador.value.attacks[3].strategy.tipo),
-                        color: getComplementaryColor(getColor(controladorBatalla
-                            .fakemonJugador.value.attacks[3].strategy.tipo)),
-                        size: 30,
-                      ),
-                    ],
-                  ),
-                )),
-              )
+              attackButton(0),
+              attackButton(1),
+              attackButton(2),
+              attackButton(3),
             ]))
       ]);
-    }
-    )
+    });
+  }
 
+  /// This method creates a health bar widget for a given Fakemon.
+  Widget healthBar(Fakemon fakemon) {
+    return Stack(
+      children: [
+        Container(
+          color: Colors.red,
+          width: 100,
+          height: 10,
+        ),
+        Container(
+          color: Colors.green,
+          width: 100 * fakemon.hp / fakemon.hpMAX,
+          height: 10,
+        ),
+      ],
+    );
+  }
 
+  /// This method creates a health points widget for a given Fakemon.
+  Widget healthPoints(Fakemon fakemon) {
+    return Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Text('Vida: ${fakemon.hp}/${fakemon.hpMAX}'));
+  }
+
+  /// This method creates a Fakemon image widget for a given Fakemon.
+  Widget fakemonImage(Fakemon fakemon, bool isPlayer) {
+    return Expanded(
+        flex: 10,
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                  'lib/assets/${fakemon.name}${isPlayer ? "Espalda" : ""}.gif'),
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+        ));
+  }
+
+  /// This method creates an attack button widget for a given attack index.
+  Widget attackButton(int index) {
+    return Expanded(
+      child: (ElevatedButton(
+        onPressed: !controladorBatalla.turnoJugador.value
+            ? null
+            : () {
+                controladorBatalla.elegirAtaque(index);
+              },
+        style: ElevatedButton.styleFrom(
+          primary: getColor(controladorBatalla
+              .fakemonJugador.value.attacks[index].strategy.tipo),
+          onPrimary: Colors.white,
+          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          minimumSize: Size(130, 50),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              controladorBatalla
+                  .fakemonJugador.value.attacks[index].strategy.runtimeType
+                  .toString(),
+              style: TextStyle(
+                  color: getComplementaryColor(getColor(controladorBatalla
+                      .fakemonJugador.value.attacks[index].strategy.tipo)),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
+            ),
+            Icon(
+              getIcon(controladorBatalla
+                  .fakemonJugador.value.attacks[index].strategy.tipo),
+              color: getComplementaryColor(getColor(controladorBatalla
+                  .fakemonJugador.value.attacks[index].strategy.tipo)),
+              size: 30,
+            ),
+          ],
+        ),
+      )),
     );
   }
 }
