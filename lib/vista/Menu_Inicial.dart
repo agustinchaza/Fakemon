@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'Menu_seleccion.dart';
 
 
+
 /// `Menu_Inicial` is a StatelessWidget that represents the initial menu of the application.
 /// It is implemented as a singleton, meaning there can only be one instance of this class.
 class Menu_Inicial extends StatelessWidget {
@@ -12,6 +13,11 @@ class Menu_Inicial extends StatelessWidget {
   static final Menu_Inicial _instance = Menu_Inicial._internal();
 
   /// Factory constructor that returns the single instance of `Menu_Inicial`.
+
+class Menu_Inicial extends StatelessWidget {
+  static final Menu_Inicial _instance = Menu_Inicial._internal();
+
+
   factory Menu_Inicial() {
     return _instance;
   }
@@ -23,6 +29,7 @@ class Menu_Inicial extends StatelessWidget {
   bool _canPlay = true;
 
   /// Builds the widget tree for `Menu_Inicial`.
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -45,6 +52,7 @@ class Menu_Inicial extends StatelessWidget {
                     Expanded(flex: 1, child: Container()),
                     Expanded(
                       flex: MediaQuery.of(context).orientation ==
+
                           Orientation.portrait
                           ? 3
                           : 1,
@@ -59,6 +67,7 @@ class Menu_Inicial extends StatelessWidget {
                             ),
                           );
                         }
+
                             : null,
                         icon: Icon(Icons.settings_outlined,
                             color: Colors.yellow),
@@ -77,11 +86,13 @@ class Menu_Inicial extends StatelessWidget {
                     Expanded(flex: 2, child: Container()),
                     Expanded(
                       flex: MediaQuery.of(context).orientation ==
+
                           Orientation.portrait
                           ? 3
                           : 1,
                       child: ElevatedButton.icon(
                         /// Navigate to `batallaUI` when the button is pressed.
+
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -91,7 +102,9 @@ class Menu_Inicial extends StatelessWidget {
                           );
                         },
                         icon:
+
                         Icon(Icons.play_arrow_outlined, color: Colors.yellow),
+
 
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blue,
@@ -115,5 +128,7 @@ class Menu_Inicial extends StatelessWidget {
         ],
       ),
     );
+
   }
 }
+
