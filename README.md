@@ -27,8 +27,7 @@ fakemon/
 │   ├── vista/  
 │  
 ├── test/   
-│  
-├── assets/  
+│   
 │  
 ├── README.md  
 └── ...  
