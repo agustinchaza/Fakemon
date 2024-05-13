@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:fakemon2/Modelo/controller.dart';
+
+import 'package:fakemon2/Modelo/ControllerBatalla.dart';
+
 
 //import '../Modelo/tiposPokemon.dart';
 import 'VisualFkmonTipo.dart';

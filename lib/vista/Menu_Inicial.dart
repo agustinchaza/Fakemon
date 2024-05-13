@@ -4,16 +4,31 @@ import 'package:flutter/material.dart';
 
 import 'Menu_seleccion.dart';
 
+
+
+/// `Menu_Inicial` is a StatelessWidget that represents the initial menu of the application.
+/// It is implemented as a singleton, meaning there can only be one instance of this class.
+class Menu_Inicial extends StatelessWidget {
+  /// The single instance of `Menu_Inicial`.
+  static final Menu_Inicial _instance = Menu_Inicial._internal();
+
+  /// Factory constructor that returns the single instance of `Menu_Inicial`.
+
 class Menu_Inicial extends StatelessWidget {
   static final Menu_Inicial _instance = Menu_Inicial._internal();
+
 
   factory Menu_Inicial() {
     return _instance;
   }
 
+  /// Private constructor used to implement the singleton pattern.
   Menu_Inicial._internal();
 
+  /// A boolean value that determines whether the game can be played.
   bool _canPlay = true;
+
+  /// Builds the widget tree for `Menu_Inicial`.
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +52,22 @@ class Menu_Inicial extends StatelessWidget {
                     Expanded(flex: 1, child: Container()),
                     Expanded(
                       flex: MediaQuery.of(context).orientation ==
-                              Orientation.portrait
+
+                          Orientation.portrait
                           ? 3
                           : 1,
                       child: ElevatedButton.icon(
+                        /// If `_canPlay` is true, navigate to `Menu_seleccion` when the button is pressed.
                         onPressed: _canPlay
                             ? () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Menu_seleccion(),
-                                  ),
-                                );
-                              }
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Menu_seleccion(),
+                            ),
+                          );
+                        }
+
                             : null,
                         icon: Icon(Icons.settings_outlined,
                             color: Colors.yellow),
@@ -68,10 +86,13 @@ class Menu_Inicial extends StatelessWidget {
                     Expanded(flex: 2, child: Container()),
                     Expanded(
                       flex: MediaQuery.of(context).orientation ==
-                              Orientation.portrait
+
+                          Orientation.portrait
                           ? 3
                           : 1,
                       child: ElevatedButton.icon(
+                        /// Navigate to `batallaUI` when the button is pressed.
+
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -81,7 +102,9 @@ class Menu_Inicial extends StatelessWidget {
                           );
                         },
                         icon:
-                            Icon(Icons.play_arrow_outlined, color: Colors.yellow),
+
+                        Icon(Icons.play_arrow_outlined, color: Colors.yellow),
+
 
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blue,
@@ -106,6 +129,6 @@ class Menu_Inicial extends StatelessWidget {
       ),
     );
 
-
   }
 }
+
