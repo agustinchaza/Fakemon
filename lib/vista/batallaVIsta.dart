@@ -69,8 +69,7 @@ class batallaUI extends StatelessWidget {
               attackButton(0),
               attackButton(1),
               attackButton(2),
-              attackButton(3),
-            ]))
+              attackButton(3),      ]))
       ]);
     });
   }
@@ -148,7 +147,8 @@ class batallaUI extends StatelessWidget {
                       .fakemonJugador.value.attacks[index].strategy.tipo)),
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
-            ),
+      ),
+
             Icon(
               getIcon(controladorBatalla
                   .fakemonJugador.value.attacks[index].strategy.tipo),
